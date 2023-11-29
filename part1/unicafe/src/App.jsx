@@ -1,59 +1,33 @@
+import { useState } from "react";
+
 const App = () => {
-	const course = "Half Stack application development";
-	const part1 = "Fundamentals of React";
-	const exercises1 = 10;
-	const part2 = "Using props to pass data";
-	const exercises2 = 7;
-	const part3 = "State of a component";
-	const exercises3 = 14;
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-	return (
-		<div>
-			<Header course={course} />
-			<Content
-				part1={part1}
-				exercises1={exercises1}
-				part2={part2}
-				exercises2={exercises2}
-				part3={part3}
-				exercises3={exercises3}
-			/>
-			<Total
-				exercises1={exercises1}
-				exercises2={exercises2}
-				exercises3={exercises3}
-			/>
-		</div>
-	);
+  const all = good + neutral + bad;
+  const positive = (good / all) * 100;
+  return (
+    <div>
+      <h1>give feedback</h1>
+      <div>
+        <button onClick={() => setGood((old) => old + 1)}>good</button>
+        <button onClick={() => setNeutral((old) => old + 1)}>neutral</button>
+        <button onClick={() => setBad((old) => old + 1)}>bad</button>
+      </div>
+      <h1>statistics</h1>
+      <div>
+        {/* there should be empty line here */}
+        <div>good {" " + good}</div>
+        <div>neutral {" " + neutral}</div>
+        <div>bad {" " + bad}</div>
+        <div>all {" " + all}</div>
+        <div>average {" " + all / 3}</div> {/* idk what kinda formula is used here */}
+        <div>positive {" " + positive + " %"}</div>
+      </div>
+    </div>
+  );
 };
-
-const Header = ({ course }) => {
-	return <h1>{course}</h1>;
-};
-
-const Content = ({
-	part1,
-	exercises1,
-	part2,
-	exercises2,
-	part3,
-	exercises3,
-}) => (
-	<>
-		<Part part={part1} exercise={exercises1} />
-		<Part part={part2} exercise={exercises2} />
-		<Part part={part3} exercise={exercises3} />
-	</>
-);
-
-const Part = ({ part, exercise }) => (
-	<p>
-		{part} {exercise}
-	</p>
-);
-
-const Total = ({ exercises1, exercises2, exercises3 }) => (
-	<p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
-);
 
 export default App;
