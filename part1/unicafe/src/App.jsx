@@ -3,28 +3,37 @@ import { useState } from "react";
 // a proper place to define a component
 const Statistics = ({ good, neutral, bad, all, positive }) => {
   return (
-    <div>
-      {/* there should be empty line here */}
-      <StatisticLine stat_name="good" stat_value={good} />
-      <StatisticLine stat_name="neutral" stat_value={neutral} />
-      <StatisticLine stat_name="bad" stat_value={bad} />
-      <StatisticLine stat_name="all" stat_value={all} />
-      <StatisticLine stat_name="average" stat_value={all / 3} />{" "}
-      {/* idk what kinda formula is used here */}
-      <StatisticLine
-        stat_name="positive"
-        stat_value={positive}
-        stat_symbol="%"
-      />
-    </div>
+    <table>
+      <tbody>
+        {/* TODO fix : Whitespace text nodes cannot appear as a child of <tbody> 🤕 */}
+        <StatisticLine stat_name="good" stat_value={good} />
+        <StatisticLine stat_name="neutral" stat_value={neutral} />
+        <StatisticLine stat_name="bad" stat_value={bad} />
+        <StatisticLine stat_name="all" stat_value={all} />
+        <StatisticLine stat_name="average" stat_value={all / 3} />{" "}
+        {/* idk what kinda formula is used here */}
+        <StatisticLine
+          stat_name="positive"
+          stat_value={positive}
+          stat_symbol="%"
+        />
+      </tbody>
+    </table>
   );
 };
 
 const StatisticLine = ({ stat_name, stat_value, stat_symbol = "" }) => {
-  return (
-    <div>
-      {stat_name} {" " + stat_value + " " + stat_symbol}{" "}
-    </div>
+  return stat_symbol !== "" ? (
+    <tr>
+      <td>{stat_name}</td>
+      <td>{stat_value}</td>
+      <td>{stat_symbol}</td>
+    </tr>
+  ) : (
+    <tr>
+      <td>{stat_name}</td>
+      <td>{stat_value}</td>
+    </tr>
   );
 };
 
