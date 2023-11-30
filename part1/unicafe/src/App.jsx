@@ -43,6 +43,7 @@ const App = () => {
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
+  // move all and positive to inside Statistics component
   const all = good + neutral + bad;
   const positive = (good / all) * 100;
   const isFeedback = good || neutral || bad;
