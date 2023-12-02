@@ -18,4 +18,10 @@ part2
   phonebook
   countries
 
-git 
+git how to unstage a file ?
+
+# part 2 notes
+  - never mutate state directly in React!
+  - .filter, .concat, .map => creates new object so original is not mutated
+  - in useState, null is a suitable default value when the state stores just one information instead of a list of items
+  - if we are trying to keep unique fields; its best to validate in server
