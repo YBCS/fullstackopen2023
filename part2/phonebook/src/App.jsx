@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456", id: 1 }, // dummy values for testing purposes
-    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
+
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise completed");
+      setPersons(response.data);
+    });
+  }, []);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -71,7 +75,7 @@ const App = () => {
 
 const Filter = ({ filterName, onChangeFilter }) => (
   <div>
-    {/* how da hello does chat gpt knows exaclty as it is in material; can it see my browser ? */}
+    {/* how da hello does copilot knows exaclty as it is in material; can it see my browser ? */}
     filter shown with <input value={filterName} onChange={onChangeFilter} />
   </div>
 );
