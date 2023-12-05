@@ -7,7 +7,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null); /* NOTE how does the model solution handles this two case  */
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const App = () => {
     }
 
     const nameObject = { name: checkName, number: checkNumber };
-    personService.create(nameObject).then((response) => {
+    personService.create(nameObject).then((response) => { /* NOTE does the model answer have a .catch for this. i think not */
       // console.log(response);
       const newPersons = persons.concat(response.data);
       setPersons(newPersons);

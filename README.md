@@ -25,3 +25,4 @@ git how to unstage a file ?
   - .filter, .concat, .map => creates new object so original is not mutated
   - in useState, null is a suitable default value when the state stores just one information instead of a list of items
   - if we are trying to keep unique fields; its best to validate in server
+  - can learn a lot from the model solutions : phonebook
