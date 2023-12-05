@@ -34,13 +34,17 @@ const App = () => {
         onChange={({ target }) => setFilterName(target.value)}
       />
       <div>
-        <Countries countries={countryToShow} filter={filterName} />
+        <Countries
+          countries={countryToShow}
+          filter={filterName}
+          showCountry={setFilterName}
+        />
       </div>
     </>
   );
 };
 
-const Countries = ({ countries, filter }) => {
+const Countries = ({ countries, filter, showCountry }) => {
   /* it took me way too much time to come up with this */
   if (!countries) return "loading countries...";
   if (filter && countries.length > 10) {
@@ -51,7 +55,18 @@ const Countries = ({ countries, filter }) => {
     return <Country country={countries[0]} />;
   }
   // notice that we are still not handling the condition when contries is just 0 elements empty array
-  return countries.map((c) => <div key={c.id}>{c.country} <button>show</button></div>);
+  return countries.map((c) => (
+    <div key={c.id}>
+      {c.country}{" "}
+      <button
+        onClick={() => {
+          showCountry(c.country);
+        }}
+      >
+        show
+      </button>
+    </div>
+  ));
 };
 
 const Country = ({ country }) => {
@@ -76,9 +91,11 @@ const Country = ({ country }) => {
           return <li key={key}> {value} </li>;
         })}
       </ul>
-      <img src={data.flags.png} width={200}></img>
+      <img src={data.flags.png} width={200} />
     </div>
   );
 };
 
 export default App;
+
+// I am not going to do that weather stuff
