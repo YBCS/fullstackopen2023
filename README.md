@@ -26,3 +26,10 @@ git how to unstage a file ?
   - in useState, null is a suitable default value when the state stores just one information instead of a list of items
   - if we are trying to keep unique fields; its best to validate in server
   - can learn a lot from the model solutions : phonebook
+
+# part 3 notes
+  - ## section a
+    - a simple backend
+  - ## section b
+    - connect with FE
+    - use cors library for node
