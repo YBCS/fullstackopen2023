@@ -40,4 +40,6 @@ git how to unstage a file ?
     - deploy FE
       - in FE, change the base url
       - in FE `npm run build`
-      - in BE, use `express.static(build)` 
+      - in BE, use `express.static(build)`
+  - ## section c
+    - Use mongodb
