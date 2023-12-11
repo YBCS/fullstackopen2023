@@ -36,3 +36,8 @@ git how to unstage a file ?
     - connect with FE
     - use cors library for node
     - first deploy BE
+      - need to create a seperate repository
+    - deploy FE
+      - in FE, change the base url
+      - in FE `npm run build`
+      - in BE, use `express.static(build)` 
