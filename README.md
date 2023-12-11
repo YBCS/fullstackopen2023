@@ -1,3 +1,5 @@
+# this is 2023 version of full stack open
+
 contains suggestions and my own thought tracker
 part 1 a to d I think instructions on directory structure can be clearer
 give back to community by doing your best 👌🏽
