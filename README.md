@@ -33,3 +33,4 @@ git how to unstage a file ?
   - ## section b
     - connect with FE
     - use cors library for node
+    - first deploy BE
