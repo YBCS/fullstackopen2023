@@ -43,3 +43,7 @@ git how to unstage a file ?
       - in BE, use `express.static(build)`
   - ## section c
     - Use mongodb
+    - When using Render, the database url is given by defining the proper env in the dashboard:
+    - questions
+      - if I try to update a resource which is no longer in db; what happens
+      

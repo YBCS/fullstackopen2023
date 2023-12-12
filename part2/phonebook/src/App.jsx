@@ -53,7 +53,8 @@ const App = () => {
             }, 5000);
           })
           .catch((error) => {
-            setErrorMessage(
+            console.error("error while update ",error)
+            setErrorMessage( // this is raising all sorts of questions
               `Information of ${newPerson.name} has already been removed from server`
             );
             setTimeout(() => {
@@ -77,7 +78,13 @@ const App = () => {
       setTimeout(() => {
         setSuccessMessage(null);
       }, 5000);
-    });
+    }).catch(error => {
+      console.log(error.response.data.error)
+      setErrorMessage(error.response.data.error);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    })
   };
 
   const onChange = (event) => {
