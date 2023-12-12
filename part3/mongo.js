@@ -33,7 +33,7 @@ if (process.argv.length === 5) {
   const number = process.argv[4];
   const person = new Person({ name, number });
 
-  person.save().then((result) => {
+  person.save().then(() => {
     console.log(`Added ${name} number ${number} to phonebook`);
     mongoose.connection.close();
   });

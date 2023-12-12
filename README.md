@@ -37,13 +37,16 @@ git how to unstage a file ?
     - use cors library for node
     - first deploy BE
       - need to create a seperate repository
+      - in my case it exist in `monoRepoFullStackOpen/phonebook_backend`
     - deploy FE
       - in FE, change the base url
       - in FE `npm run build`
       - in BE, use `express.static(build)`
+      - copy static directory to the BE directory
+      - commit and push code
   - ## section c
     - Use mongodb
     - When using Render, the database url is given by defining the proper env in the dashboard:
     - questions
       - if I try to update a resource which is no longer in db; what happens
-      
+

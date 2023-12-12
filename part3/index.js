@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 const Person = require("./models/person");
 
-morgan.token("body", function (req, res) {
+morgan.token("body", function (req) {
   return JSON.stringify(req.body);
 });
 
@@ -43,7 +43,7 @@ app.get("/", (request, response) => {
 // findByIdAndRemove # deprecated # still no fixed in "fullstack-hy2020/part3-notes-backend/tree/part3-5"
 app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
