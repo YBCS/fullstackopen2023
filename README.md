@@ -21,6 +21,8 @@ part2
   countries
 
 git how to unstage a file ?
+  - `git reset .`
+  - what is `git restore .`  for ? is that even a command
 
 # part 2 notes
   - never mutate state directly in React!
@@ -50,3 +52,7 @@ git how to unstage a file ?
     - questions
       - if I try to update a resource which is no longer in db; what happens
 
+
+# part 4 BE structure
+  - ## section a 
+    - how to organize BE according to good practise
