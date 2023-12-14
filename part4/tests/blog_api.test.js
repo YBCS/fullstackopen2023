@@ -4,62 +4,12 @@ const app = require("../app");
 const api = supertest(app);
 
 const Blog = require("../models/blog");
-
-const initialBlogs = [
-  {
-    _id: "5a422a851b54a676234d17f7",
-    title: "React patterns",
-    author: "Michael Chan",
-    url: "https://reactpatterns.com/",
-    likes: 7,
-    __v: 0,
-  },
-  {
-    _id: "5a422aa71b54a676234d17f8",
-    title: "Go To Statement Considered Harmful",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    likes: 5,
-    __v: 0,
-  },
-  {
-    _id: "5a422b3a1b54a676234d17f9",
-    title: "Canonical string reduction",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-    likes: 12,
-    __v: 0,
-  },
-  {
-    _id: "5a422b891b54a676234d17fa",
-    title: "First class tests",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
-    likes: 10,
-    __v: 0,
-  },
-  {
-    _id: "5a422ba71b54a676234d17fb",
-    title: "TDD harms architecture",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-    likes: 0,
-    __v: 0,
-  },
-  {
-    _id: "5a422bc61b54a676234d17fc",
-    title: "Type wars",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
-    likes: 2,
-    __v: 0,
-  },
-];
+const helper = require('./test_helper')
 
 beforeEach(async () => {
   // use for of // for each will not support promises // alt. use promises.all
   await Blog.deleteMany({});
-  for (let blog of initialBlogs) {
+  for (let blog of helper.initialBlogs) {
     let blogObject = new Blog(blog);
     await blogObject.save();
   }
@@ -73,10 +23,32 @@ test("blogs are returned as json", async () => {
 }, 100000);
 
 test("unique identifier property of the blog posts is named id", async () => {
-  const blogs = await Blog.find({});
-  console.log('blog 1 ', blogs[0])
+  const blogs = await helper.blogsInDb()
   blogs.forEach((blog) => expect(blog.id).toBeDefined());
 });
+
+test("a valid blog can be added ", async () => {
+  const newBlog = {
+    title: "new title ",
+    author: "Author San",
+    url: "http://blog.coder.com/uncle-bob.html",
+    likes: 2,
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+
+  const urls = blogsAtEnd.map((n) => n.url);
+  expect(urls).toContain("http://blog.coder.com/uncle-bob.html");
+});
+
+// Write a test that verifies that if the likes property is missing from the request, it will default to the value 0. Do not test the other properties of the created blogs yet
 
 afterAll(async () => {
   await mongoose.connection.close();
