@@ -56,3 +56,4 @@ git how to unstage a file ?
 # part 4 BE structure
   - ## section a 
     - how to organize BE according to good practise
+    - Automated Testing begins
