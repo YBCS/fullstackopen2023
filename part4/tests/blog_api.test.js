@@ -4,7 +4,7 @@ const app = require("../app");
 const api = supertest(app);
 
 const Blog = require("../models/blog");
-const helper = require('./test_helper')
+const helper = require("./test_helper");
 
 beforeEach(async () => {
   // use for of // for each will not support promises // alt. use promises.all
@@ -23,7 +23,7 @@ test("blogs are returned as json", async () => {
 }, 100000);
 
 test("unique identifier property of the blog posts is named id", async () => {
-  const blogs = await helper.blogsInDb()
+  const blogs = await helper.blogsInDb();
   blogs.forEach((blog) => expect(blog.id).toBeDefined());
 });
 
@@ -46,9 +46,22 @@ test("a valid blog can be added ", async () => {
 
   const urls = blogsAtEnd.map((n) => n.url);
   expect(urls).toContain("http://blog.coder.com/uncle-bob.html");
+
+  // save one wihout likes; and make sure its 0
 });
 
 // Write a test that verifies that if the likes property is missing from the request, it will default to the value 0. Do not test the other properties of the created blogs yet
+
+test("a blog saved without like has to default to 0 likes", async () => {
+  const blog = {
+    title: "new title ",
+    author: "Author San",
+    url: "http://blog.coder.com/uncle-bob.html",
+    // likes: 2,
+  };
+  const saved = await new Blog(blog);
+  expect(saved.likes).toBe(0);
+});
 
 afterAll(async () => {
   await mongoose.connection.close();
