@@ -1,6 +1,8 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
 
+// because of express-async-errors we don't need to wrap async functions in try-catch blocks
+
 blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({});
   response.json(blogs);
