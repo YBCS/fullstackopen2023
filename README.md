@@ -57,8 +57,11 @@ git how to unstage a file ?
   - ## section a 
     - how to organize BE according to good practise
     - Automated Testing begins
-    - run single tests as `npm test -- -t 'when list has only one blog, equals the likes of that'`
+    - run tests with match `npm test -- -t 'when list has only one blog, equals the likes of that'`
     - run single test with `only` option
   - ## section b
     - WARNING - If you find yourself using async/await and then methods in the same code, it is almost guaranteed that you are doing something wrong. Use one or the other and don't mix the two.
     - NB: when you are writing your tests it is better to not execute all of your tests, only execute the ones you are working on.
+    - running single test file
+      - `npm test -- tests/blog_api.test.js`
+    - in express we can use `express-async-errors` to handle try catch elegantly ?
