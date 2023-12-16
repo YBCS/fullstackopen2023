@@ -10,7 +10,8 @@ blogsRouter.get("/", async (request, response) => {
 
 blogsRouter.post("/", async (request, response, next) => {
   const body = request.body;
-  if (!body.likes) { // should it be handled in 2 places ?
+  if (!body.likes) {
+    // should it be handled in 2 places ?
     body.likes = 0;
   }
   if (!body.title || !body.url) {
@@ -20,7 +21,21 @@ blogsRouter.post("/", async (request, response, next) => {
   const blog = new Blog(body);
 
   const savedBlog = await blog.save();
-  response.status(201).json(savedBlog)
+  response.status(201).json(savedBlog);
+});
+
+blogsRouter.delete("/:id", async (request, response, next) => {
+  await Blog.findByIdAndDelete(request.params.id);
+  response.status(204).end();
+});
+
+blogsRouter.put("/:id", async (request, response, next) => {
+  const body = request.body;
+
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, body, {
+    new: true,
+  });
+  response.json(updatedBlog);
 });
 
 // notesRouter.get('/:id', (request, response, next) => {
@@ -31,29 +46,6 @@ blogsRouter.post("/", async (request, response, next) => {
 //       } else {
 //         response.status(404).end()
 //       }
-//     })
-//     .catch(error => next(error))
-// })
-
-// notesRouter.delete('/:id', (request, response, next) => {
-//   Note.findByIdAndDelete(request.params.id)
-//     .then(() => {
-//       response.status(204).end()
-//     })
-//     .catch(error => next(error))
-// })
-
-// notesRouter.put('/:id', (request, response, next) => {
-//   const body = request.body
-
-//   const note = {
-//     content: body.content,
-//     important: body.important,
-//   }
-
-//   Note.findByIdAndUpdate(request.params.id, note, { new: true })
-//     .then(updatedNote => {
-//       response.json(updatedNote)
 //     })
 //     .catch(error => next(error))
 // })

@@ -13,6 +13,7 @@ beforeEach(async () => {
     let blogObject = new Blog(blog);
     await blogObject.save();
   }
+  console.log("before each done");
 }, 100000);
 
 test("blogs are returned as json", async () => {
@@ -27,51 +28,84 @@ test("unique identifier property of the blog posts is named id", async () => {
   blogs.forEach((blog) => expect(blog.id).toBeDefined());
 });
 
-test("a valid blog can be added ", async () => {
-  const newBlog = {
-    title: "new title ",
-    author: "Author San",
-    url: "http://blog.coder.com/uncle-bob.html",
-    likes: 2,
-  };
+describe("addition of a new blog", () => {
+  test("a valid blog can be added ", async () => {
+    const newBlog = {
+      title: "new title ",
+      author: "Author San",
+      url: "http://blog.coder.com/uncle-bob.html",
+      likes: 2,
+    };
 
-  await api
-    .post("/api/blogs")
-    .send(newBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
+    await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
 
-  const blogsAtEnd = await helper.blogsInDb();
-  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 
-  const urls = blogsAtEnd.map((n) => n.url);
-  expect(urls).toContain("http://blog.coder.com/uncle-bob.html");
+    const urls = blogsAtEnd.map((n) => n.url);
+    expect(urls).toContain("http://blog.coder.com/uncle-bob.html");
+  });
 
-});
+  test("a blog saved without like has to default to 0 likes", async () => {
+    const blog = {
+      title: "new title ",
+      author: "Author San",
+      url: "http://blog.coder.com/uncle-bob.html",
+    };
+    const blogObject = new Blog(blog);
+    const saved = await blogObject.save();
+    expect(saved.likes).toBe(0);
+  });
 
-test("a blog saved without like has to default to 0 likes", async () => {
-  const blog = {
-    title: "new title ",
-    author: "Author San",
-    url: "http://blog.coder.com/uncle-bob.html",
-  };
-  const blogObject = new Blog(blog);
-  const saved = await blogObject.save();  
-  expect(saved.likes).toBe(0);
-});
-
-// 4.12*: Blog list tests, step5
-test("a blog cannot be created without title or url", async () => {
+  test("a blog cannot be created without title or url", async () => {
     const newBlog = {
       title: "no title or url ",
       author: "Author San",
     };
 
-    await api
-    .post("/api/blogs")
-    .send(newBlog)
-    .expect(400)
+    await api.post("/api/blogs").send(newBlog).expect(400);
   });
+});
+
+describe("deletion of a blog", () => {
+  test("succeeds with status code 204 if id is valid", async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToDelete = blogsAtStart[0];
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+
+    const urls = blogsAtEnd.map((r) => r.url);
+
+    expect(urls).not.toContain(blogToDelete.url);
+  });
+});
+
+describe("update a blog", () => {
+  test("by updating likes", async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToUpdate = {
+      ...blogsAtStart[0],
+      likes: blogsAtStart[0].likes + 1,
+    };
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200);
+    const blogsAtEnd = await helper.blogsInDb();
+
+    const updated = blogsAtEnd.find((b) => b.id === blogToUpdate.id);
+
+    expect(updated.likes).toBe(blogToUpdate.likes);
+  });
+});
 
 afterAll(async () => {
   await mongoose.connection.close();
