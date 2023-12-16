@@ -69,3 +69,5 @@ git how to unstage a file ?
     - put request should return status `200` for success. ?
   - ## section d
     - for exercise ; follow till token auth
+    - middlewares are very flexible; they can be applied solely to a route, or even to just a funtion
+    - [] fix the broken test :P

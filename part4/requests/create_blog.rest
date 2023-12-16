@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: Bearer token
 
 {
-    "title": "blog with another token",
+    "title": "blog with different token",
     "author": "buda",
     "url": "www.buda.com/token"
 }

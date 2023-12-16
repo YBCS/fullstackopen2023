@@ -1,4 +1,6 @@
 const logger = require('./logger')
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 // can use morgan too
 const requestLogger = (request, response, next) => {
@@ -42,9 +44,24 @@ const tokenExtractor = (request, response, next) => {
   next()
 }
 
+const userExtractor = async (request, response, next) => { // it seems my understanding of await is wonky
+  // from model solution
+  const token = getTokenFrom(request)
+  if (token) {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token invalid' })
+    }
+    request.user = await User.findById(decodedToken.id)
+  }
+
+  next()
+}
+
 module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
+  userExtractor,
 }
