@@ -4,7 +4,8 @@ Content-Type: application/json
 {
     "title": "new blog asdg",
     "author": "buda",
-    "url": "www.buda.com"
+    "url": "www.buda.com",
+    "userId": "657dade9f1e7fb2f0e9023b4"
 }
 
 ###

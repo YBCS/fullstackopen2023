@@ -66,3 +66,6 @@ git how to unstage a file ?
       - `npm test -- tests/blog_api.test.js`
     - in express we can use `express-async-errors` to handle try catch elegantly ?
     - post request should return status `201` for success.
+    - put request should return status `200` for success. ?
+  - ## section d
+    - for exercise ; follow till token auth

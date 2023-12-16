@@ -103,7 +103,7 @@ describe("update a blog", () => {
 
     const updated = blogsAtEnd.find((b) => b.id === blogToUpdate.id);
 
-    expect(updated.likes).toBe(blogToUpdate.likes);
+    expect(updated.likes).toBe(blogsAtStart[0].likes + 1);
   });
 });
 
