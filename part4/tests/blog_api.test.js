@@ -13,7 +13,7 @@ beforeEach(async () => {
     let blogObject = new Blog(blog);
     await blogObject.save();
   }
-});
+}, 100000);
 
 test("blogs are returned as json", async () => {
   await api
@@ -47,21 +47,31 @@ test("a valid blog can be added ", async () => {
   const urls = blogsAtEnd.map((n) => n.url);
   expect(urls).toContain("http://blog.coder.com/uncle-bob.html");
 
-  // save one wihout likes; and make sure its 0
 });
-
-// Write a test that verifies that if the likes property is missing from the request, it will default to the value 0. Do not test the other properties of the created blogs yet
 
 test("a blog saved without like has to default to 0 likes", async () => {
   const blog = {
     title: "new title ",
     author: "Author San",
     url: "http://blog.coder.com/uncle-bob.html",
-    // likes: 2,
   };
-  const saved = await new Blog(blog);
+  const blogObject = new Blog(blog);
+  const saved = await blogObject.save();  
   expect(saved.likes).toBe(0);
 });
+
+// 4.12*: Blog list tests, step5
+test("a blog cannot be created without title or url", async () => {
+    const newBlog = {
+      title: "no title or url ",
+      author: "Author San",
+    };
+
+    await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(400)
+  });
 
 afterAll(async () => {
   await mongoose.connection.close();

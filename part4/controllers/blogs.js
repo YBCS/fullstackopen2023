@@ -9,7 +9,15 @@ blogsRouter.get("/", async (request, response) => {
 });
 
 blogsRouter.post("/", async (request, response, next) => {
-  const blog = new Blog(request.body);
+  const body = request.body;
+  if (!body.likes) { // should it be handled in 2 places ?
+    body.likes = 0;
+  }
+  if (!body.title || !body.url) {
+    response.status(400).end();
+    return;
+  }
+  const blog = new Blog(body);
 
   const savedBlog = await blog.save();
   response.status(201).json(savedBlog)
