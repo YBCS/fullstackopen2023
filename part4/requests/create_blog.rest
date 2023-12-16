@@ -1,11 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer token
 
 {
-    "title": "new blog asdg",
+    "title": "blog with token",
     "author": "buda",
-    "url": "www.buda.com",
-    "userId": "657dade9f1e7fb2f0e9023b4"
+    "url": "www.buda.com/token"
 }
 
 ###
