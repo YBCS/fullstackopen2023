@@ -48,7 +48,7 @@ const userExtractor = async (request, response, next) => { // it seems my unders
   // from model solution
   const token = getTokenFrom(request)
   if (token) {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const decodedToken = jwt.verify(token, process.env.SECRET)
     if (!decodedToken.id) {
       return response.status(401).json({ error: 'token invalid' })
     }

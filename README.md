@@ -70,4 +70,5 @@ git how to unstage a file ?
   - ## section d
     - for exercise ; follow till token auth
     - middlewares are very flexible; they can be applied solely to a route, or even to just a funtion
-    - [] fix the broken test :P
+    - [x] fix the broken test :P
+    - if I run `npm test` to run all test at once; some tests are failing which passes individually ??

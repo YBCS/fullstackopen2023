@@ -10,6 +10,9 @@ blogsRouter.get("/", async (request, response) => {
 
 blogsRouter.post("/", async (request, response, next) => {
   const user = request.user;
+  if (!user) {
+    response.status(401).json({ error: 'Unauthorized, token not provided' })
+  }
   const body = request.body;
 
   if (!body.likes) {
