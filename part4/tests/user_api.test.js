@@ -1,7 +1,11 @@
-const bcrypt = require('bcrypt')
-const User = require('../models/user')
+const mongoose = require("mongoose");
+const supertest = require("supertest");
+const app = require("../app");
+const api = supertest(app);
 
-//... not yet verified
+const bcrypt = require('bcrypt')
+const helper = require("./test_helper");
+const User = require('../models/user')
 
 describe('when there is initially one user in db', () => {
   beforeEach(async () => {
@@ -9,9 +13,8 @@ describe('when there is initially one user in db', () => {
 
     const passwordHash = await bcrypt.hash('sekret', 10)
     const user = new User({ username: 'root', passwordHash })
-
     await user.save()
-  })
+  }, 100000)
 
   test('creation succeeds with a fresh username', async () => {
     const usersAtStart = await helper.usersInDb()
@@ -56,3 +59,7 @@ describe('when there is initially one user in db', () => {
     expect(usersAtEnd).toEqual(usersAtStart)
   })  
 })
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
