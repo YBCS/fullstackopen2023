@@ -72,3 +72,7 @@ git how to unstage a file ?
     - middlewares are very flexible; they can be applied solely to a route, or even to just a funtion
     - [x] fix the broken test :P
     - if I run `npm test` to run all test at once; some tests are failing which passes individually ??
+
+# part 5 bloglist FE
+  - ## section a
+    - a new FE  
