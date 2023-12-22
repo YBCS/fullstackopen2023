@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseUrl = '/api/blogs'
+
+// const baseUrl = '/api/blogs' // for production
+const baseUrl = "http://localhost:3003/api/blogs";
 
 const getAll = () => {
   const request = axios.get(baseUrl)
