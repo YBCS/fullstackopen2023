@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 const STORE_KEY = 'loggedBlogappUser'
 
 const App = () => {
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState({ message: null })
+
+  const notifyWith = (message, type = 'info') => {
+    setNotification({ message, type })
+    setTimeout(() => {
+      setNotification({ message: null })
+    }, 3000)
+  }
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem(STORE_KEY)
@@ -19,31 +28,47 @@ const App = () => {
   return (
     <>
       {user === null ? (
-        <Login setUser={setUser} />
+        <Login
+          setUser={setUser}
+          notifyWith={notifyWith}
+          notification={notification}
+        />
       ) : (
-        <Blogs user={user} setUser={setUser} />
+        <Blogs
+          user={user}
+          setUser={setUser}
+          notifyWith={notifyWith}
+          notification={notification}
+        />
       )}
     </>
   )
 }
 
-const Login = ({ setUser }) => {
+const Login = ({ setUser, notifyWith, notification }) => {
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
 
   const onSubmit = async (event) => {
-    event.preventDefault()
-    const user = await loginService.login({ username, password })
-    setUser(user)
-    window.localStorage.setItem(STORE_KEY, JSON.stringify(user))
-    blogService.setToken(user.token)
-    setUserName('')
-    setPassword('')
+    try {
+      event.preventDefault()
+      const user = await loginService.login({ username, password })
+      setUser(user)
+      notifyWith(`${user.username} welcome back!`)
+      window.localStorage.setItem(STORE_KEY, JSON.stringify(user))
+      blogService.setToken(user.token)
+      setUserName('')
+      setPassword('')
+    } catch (e) {
+      notifyWith('wrong credentials', 'error')
+      console.error(e)
+    }
   }
 
   return (
     <form onSubmit={onSubmit}>
       <h1>log in to application</h1>
+      <Notification notification={notification} />
       <div>
         username:{' '}
         <input
@@ -66,7 +91,7 @@ const Login = ({ setUser }) => {
   )
 }
 
-const Blogs = ({ user, setUser }) => {
+const Blogs = ({ user, setUser, notifyWith, notification }) => {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
@@ -75,9 +100,12 @@ const Blogs = ({ user, setUser }) => {
 
   const addBlog = (newBlog) => {
     return blogService.create(newBlog).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog))
+      setBlogs(blogs.concat(returnedBlog));
+      notifyWith(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+    }).catch((e) => {
+      notifyWith(e.response.data.error, 'error')
     })
-  }  
+  }
 
   const logout = (event) => {
     event.preventDefault() // is this really helping ?
@@ -88,6 +116,7 @@ const Blogs = ({ user, setUser }) => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification notification={notification} />
       <div>
         {`${user.username} logged in`}
         <button onClick={logout}>logout</button>
@@ -101,13 +130,13 @@ const Blogs = ({ user, setUser }) => {
   )
 }
 
-const BlogForm = ({addBlog}) => {
+const BlogForm = ({ addBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const onSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     addBlog({ title, author, url }).then(() => {
       setTitle('')
       setAuthor('')

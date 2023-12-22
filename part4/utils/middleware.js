@@ -27,6 +27,9 @@ const errorHandler = (error, request, response, next) => {
   } else if (error.name === 'TokenExpiredError') {
     return response.status(401).json({ error: 'token expired' })
   }
+  
+  // todo : remove line
+  console.error('new uncaught errorHandler middleware trigger ', error.name)
 
   next(error)
 }

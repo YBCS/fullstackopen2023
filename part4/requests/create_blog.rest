@@ -1,8 +1,8 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer token
 
 {
-    "title": "blog with different token",
     "author": "buda",
     "url": "www.buda.com/token"
 }
