@@ -12,7 +12,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      // blogService.setToken(user.token)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -36,6 +36,9 @@ const Login = ({ setUser }) => {
     const user = await loginService.login({ username, password })
     setUser(user)
     window.localStorage.setItem(STORE_KEY, JSON.stringify(user))
+    blogService.setToken(user.token)
+    setUserName('')
+    setPassword('')
   }
 
   return (
@@ -70,6 +73,12 @@ const Blogs = ({ user, setUser }) => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
+  const addBlog = (newBlog) => {
+    return blogService.create(newBlog).then((returnedBlog) => {
+      setBlogs(blogs.concat(returnedBlog))
+    })
+  }  
+
   const logout = (event) => {
     event.preventDefault() // is this really helping ?
     window.localStorage.removeItem(STORE_KEY)
@@ -84,7 +93,7 @@ const Blogs = ({ user, setUser }) => {
         <button onClick={logout}>logout</button>
       </div>
       <br />
-      <BlogForm />
+      <BlogForm addBlog={addBlog} />
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
@@ -92,13 +101,18 @@ const Blogs = ({ user, setUser }) => {
   )
 }
 
-const BlogForm = () => {
+const BlogForm = ({addBlog}) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const onSubmit = (event) => {
     event.preventDefault();
+    addBlog({ title, author, url }).then(() => {
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    })
   }
   return (
     <form onSubmit={onSubmit}>
