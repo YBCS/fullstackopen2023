@@ -135,7 +135,7 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
         <BlogForm addBlog={addBlog} />
       </Togglable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} isCurrentUser={isCurrentUser(blog)} />
+        <Blog key={blog.id} blog={blog} />
       ))}
     </div>
   )
