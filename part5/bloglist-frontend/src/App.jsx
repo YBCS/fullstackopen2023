@@ -97,18 +97,26 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
+    blogService
+      .getAll()
+      .then((blogs) => blogs.sort((a, b) => b.likes - a.likes))
+      .then((blogs) => setBlogs(blogs))
   }, [])
 
   const addBlog = (newBlog) => {
     // my implementation is a lil different from the course
     blogFormRef.current.toggleVisibility()
-    return blogService.create(newBlog).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog));
-      notifyWith(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
-    }).catch((e) => {
-      notifyWith(e.response.data.error, 'error')
-    })
+    return blogService
+      .create(newBlog)
+      .then((returnedBlog) => {
+        setBlogs(blogs.concat(returnedBlog))
+        notifyWith(
+          `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
+        )
+      })
+      .catch((e) => {
+        notifyWith(e.response.data.error, 'error')
+      })
   }
 
   const logout = (event) => {
@@ -117,10 +125,24 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
     setUser(null)
   }
 
-  const blogFormRef = useRef()
+  const handleLike = (blog) => {
+    // some blogs were created without user field
+    const updatedBlog = { ...blog, user: blog.user?.id, likes: blog.likes + 1 }
+    blogService
+      .update(blog.id, updatedBlog)
+      .then((returnedBlog) => {
+        setBlogs(
+          blogs.map((blog) =>
+            blog.id !== returnedBlog.id ? blog : returnedBlog
+          )
+        )
+      })
+      .catch((e) => {
+        notifyWith(e.response.data.error, 'error')
+      })
+  }
 
-  // NOTE : check solution for this
-  const isCurrentUser = (blog) => blog.user?.username === user.username
+  const blogFormRef = useRef()
 
   return (
     <div>
@@ -131,15 +153,14 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
         <button onClick={logout}>logout</button>
       </div>
       <br />
-      <Togglable buttonLabel='new blog' ref={blogFormRef} >
+      <Togglable buttonLabel="new blog" ref={blogFormRef}>
         <BlogForm addBlog={addBlog} />
       </Togglable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLike={() => handleLike(blog)} />
       ))}
     </div>
   )
 }
-
 
 export default App
