@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleRemove, isSameAuthor }) => {
   // NOTE : check solution
   const [showAll, setShowALl] = useState(false)
   const blogStyle = {
@@ -26,6 +26,7 @@ const Blog = ({ blog, handleLike }) => {
             <button onClick={handleLike}>like</button>
           </div>
           <div>{blog.user?.username}</div>
+          {isSameAuthor && <button onClick={handleRemove}>remove</button>}
         </div>
       )}
     </div>

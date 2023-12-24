@@ -33,6 +33,10 @@ blogsRouter.post("/", async (request, response, next) => {
 
 blogsRouter.delete("/:id", async (request, response, next) => {
   const user = request.user;
+  // TODO : must we enfore it in the middleware ?
+  if (!user) {
+    response.status(401).json({ error: 'Unauthorized, token not provided' })
+  }
   const blogToDelete = await Blog.findById(request.params.id);
   if (blogToDelete && blogToDelete.user.toString() !== user.id) { // eg if root login but try to delete buda's blog
     return response.status(401).json({ error: 'please login with correct credentials' })

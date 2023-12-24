@@ -142,6 +142,20 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
       })
   }
 
+  const handleRemove = (blog) => {
+    if (confirm(`Remove blog ${blog.title} by ${blog.author} ?`)) {
+      console.log('remove ', blog)
+      blogService
+        .remove(blog.id)
+        .then(() => {
+          setBlogs(blogs.filter((b) => b.id !== blog.id))
+        })
+        .catch((e) => {
+          notifyWith(e.response?.data?.error, 'error')
+        })
+    }
+  }
+
   const blogFormRef = useRef()
 
   return (
@@ -157,7 +171,13 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
         <BlogForm addBlog={addBlog} />
       </Togglable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} handleLike={() => handleLike(blog)} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLike={() => handleLike(blog)}
+          handleRemove={() => handleRemove(blog)}
+          isSameAuthor={user.username === blog.user?.username}
+        />
       ))}
     </div>
   )
