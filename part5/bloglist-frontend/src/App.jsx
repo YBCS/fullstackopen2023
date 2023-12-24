@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 const STORE_KEY = 'loggedBlogappUser'
@@ -99,6 +101,8 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
   }, [])
 
   const addBlog = (newBlog) => {
+    // my implementation is a lil different from the course
+    blogFormRef.current.toggleVisibility()
     return blogService.create(newBlog).then((returnedBlog) => {
       setBlogs(blogs.concat(returnedBlog));
       notifyWith(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
@@ -113,6 +117,8 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
     setUser(null)
   }
 
+  const blogFormRef = useRef()
+
   return (
     <div>
       <h2>blogs</h2>
@@ -122,7 +128,9 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
         <button onClick={logout}>logout</button>
       </div>
       <br />
-      <BlogForm addBlog={addBlog} />
+      <Togglable buttonLabel='new blog' ref={blogFormRef} >
+        <BlogForm addBlog={addBlog} />
+      </Togglable>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
@@ -130,43 +138,5 @@ const Blogs = ({ user, setUser, notifyWith, notification }) => {
   )
 }
 
-const BlogForm = ({ addBlog }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
-  const onSubmit = (event) => {
-    event.preventDefault()
-    addBlog({ title, author, url }).then(() => {
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-    })
-  }
-  return (
-    <form onSubmit={onSubmit}>
-      <h2>create new</h2>
-      <div>
-        title:{' '}
-        <input
-          value={title}
-          onChange={({ target }) => setTitle(target.value)}
-        />
-      </div>
-      <div>
-        author:{' '}
-        <input
-          value={author}
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        url:{' '}
-        <input value={url} onChange={({ target }) => setUrl(target.value)} />
-      </div>
-      <button type="submit">create</button>
-    </form>
-  )
-}
 
 export default App
