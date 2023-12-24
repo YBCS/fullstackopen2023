@@ -38,4 +38,9 @@ const BlogForm = ({ addBlog }) => {
     </form>
   )
 }
+
+BlogForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+}
+
 export default BlogForm
