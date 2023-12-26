@@ -75,4 +75,17 @@ git how to unstage a file ?
 
 # part 5 bloglist FE
   - ## section a
-    - a new FE  
+    - a new FE
+  - 5.4 : add notifications
+    - success login
+    - fail login
+    - success blog create
+    - fail blog create
+  - 5.12 done
+  - skipping the FE testing for now; section c,d
+
+# part 6
+  - reducers must be pure functions
+  - Pure functions are such, that they do not cause any side effects and they must always return the same response when called with the same parameters.
+  - A reducer state must be composed of immutable objects. If there is a change in the state, the old object is not changed, but it is replaced with a new, changed, object.
+  - why am I unable to use .js instead of .jsx

@@ -43,6 +43,7 @@ const reducer = (state = initialState, action) => {
   }
 }
 
+/* ACTION CREATORS */
 export const castVoteOf = (id) => {
   return {
     type: 'CAST_VOTE',
