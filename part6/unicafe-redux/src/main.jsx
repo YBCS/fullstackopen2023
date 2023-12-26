@@ -6,6 +6,13 @@ import reducer from './reducer'
 
 const store = createStore(reducer)
 
+// if inside a component it will resubscribe every time the component is rendered.
+// so it needs to be cleaned up in the component's cleanup function.
+store.subscribe(() => {
+  const storeNow = store.getState()
+  console.log('subs ',storeNow)
+}) 
+
 const App = () => {
   const good = () => {
     store.dispatch({
