@@ -8,8 +8,9 @@ Authorization: Bearer token
 }
 
 ###
-PUT http://localhost:3003/api/blogs/657ac94dd1737d590d817a54
+PUT http://localhost:3003/api/blogs/657ddd3e1df12e86e11d634c
 Content-Type: application/json
+Authorization: Bearer token
 
 {
     "likes": 1
