@@ -16,8 +16,9 @@ const AnecdoteList = () => {
         c.content.toLowerCase().includes(filterName.toLowerCase())
       )
     : anecdotes
-
-  const anecdotesSortedByVotes = anecdotesToShow.sort(
+  
+    // woah --> why do I have to do this // does the solution does this too ?
+  const anecdotesSortedByVotes = [...anecdotesToShow].sort(
     (a, b) => b.votes - a.votes
   )
 

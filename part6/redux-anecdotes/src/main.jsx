@@ -1,17 +1,9 @@
 import ReactDOM from 'react-dom/client'
-import { combineReducers, createStore } from 'redux'
 import { Provider } from 'react-redux'
 import App from './App'
-import anecdoteReducer from './reducers/anecdoteReducer'
-import filterReducer from './reducers/filterReducer'
+import store from './store'
 
-const reducer = combineReducers({
-  anecdotes: anecdoteReducer,
-  filter: filterReducer
-})
-
-const store = createStore(reducer)
-
+/* debugging -- does this still work in configure store */
 store.subscribe(() => {
   const storeNow = store.getState()
   console.log('store now in subscribe ', storeNow)
