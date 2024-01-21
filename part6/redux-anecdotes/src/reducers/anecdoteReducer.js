@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { createSlice } from '@reduxjs/toolkit'
+import anecdoteService from '../services/anecdotes'
 
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
@@ -30,6 +31,14 @@ const anecdoteSlice = createSlice({
     }    
   },
 })
+
+// redux thunk
+export const initializeAnecdotes = () => {
+  return async dispatch => { // where is this dispatch coming from ?
+    const anecdotes = await anecdoteService.getAll()
+    dispatch(setAnecdotes(anecdotes))
+  }
+}
 
 export const { castVoteOf, createAnecdote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions
 export default anecdoteSlice.reducer
