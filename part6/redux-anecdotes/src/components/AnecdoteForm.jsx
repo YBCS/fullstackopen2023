@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
-import { clearNotification, setNotification } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = () => {
   /* using uncontrolled form */
@@ -10,10 +10,7 @@ const AnecdoteForm = () => {
     const content = event.target[0].value
     event.target[0].value = ''
     dispatch(createAnecdote(content)) // todo : there is no error handling ?
-    dispatch(setNotification(`you created a new anecdote: ${content}`))
-    setTimeout(() => {
-      dispatch(clearNotification(''))
-    }, 3000)
+    dispatch(setNotification(`you created a new anecdote: ${content}`, 10))    
   }
 
   return (

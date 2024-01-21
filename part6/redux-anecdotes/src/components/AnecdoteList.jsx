@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { castVoteOf } from '../reducers/anecdoteReducer'
 import Filter from './Filter'
-import { clearNotification, setNotification } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdotes)
@@ -12,10 +12,9 @@ const AnecdoteList = () => {
     dispatch(castVoteOf(anecdote))
     const voted = anecdotes.find((a) => a.id === anecdote.id)
     // there is a bug here. When I set '' after 5 seconds it will overwrite the notification
-    dispatch(setNotification(`you voted ${voted.content}`))
-    setTimeout(() => {
-      dispatch(clearNotification(''))
-    }, 3000)
+
+    // implement this thunk
+    dispatch(setNotification(`you voted '${voted.content}'`, 10))
   }
 
   const anecdotesToShow = filterName
