@@ -91,4 +91,9 @@ git how to unstage a file ?
   - A reducer state must be composed of immutable objects. If there is a change in the state, the old object is not changed, but it is replaced with a new, changed, object.
   - why am I unable to use .js instead of .jsx
   - ## section b
-  - 
+  - ## section c
+  - to JSON server, I had to switch my node version to 18 using nvm
+  - also -watch argument in json-server is no longer supported
+  - Redux Toolkit's `configureStore` has `Redux Thunk` inbuilt
+  - Quote: "The solution is elegant. The initialization logic for the notes has been completely separated from the React component." # so that is what is elegant in the eyes of the authors
+    - my understanding is that they are not using service files in the component file and that is the level of abstraction they are looking for "elegant".

@@ -19,12 +19,8 @@ const anecdoteSlice = createSlice({
         anecdote.id !== id ? anecdote : changedAnecdote
       )
     },
-    createAnecdote(state, action) {
-      state.push(action.payload) // possible because of immer
-      return
-    },
     appendAnecdote(state, action) { // will append one at a time
-      state.push(action.payload)
+      state.push(action.payload) // possible because of immer
     },
     setAnecdotes(state, action) { // will replace entire state
       return action.payload
@@ -32,7 +28,7 @@ const anecdoteSlice = createSlice({
   },
 })
 
-// redux thunk
+// redux thunk - asynchronous action creators
 export const initializeAnecdotes = () => {
   return async dispatch => { // where is this dispatch coming from ?
     const anecdotes = await anecdoteService.getAll()
@@ -40,5 +36,12 @@ export const initializeAnecdotes = () => {
   }
 }
 
-export const { castVoteOf, createAnecdote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions
+export const createAnecdote = (content) => {
+  return async dispatch => { // where is this dispatch coming from ?
+    const anecdote = await anecdoteService.createNew(content)
+    dispatch(appendAnecdote(anecdote))
+  }
+}
+
+export const { castVoteOf, appendAnecdote, setAnecdotes } = anecdoteSlice.actions
 export default anecdoteSlice.reducer

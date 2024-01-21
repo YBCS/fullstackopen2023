@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
-import anecdoteService from '../services/anecdotes'
 import { clearNotification, setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = () => {
@@ -10,8 +9,7 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const content = event.target[0].value
     event.target[0].value = ''
-    const newAnecdote = await anecdoteService.createNew(content) // there is no error handling
-    dispatch(createAnecdote(newAnecdote))
+    dispatch(createAnecdote(content)) // todo : there is no error handling ?
     dispatch(setNotification(`you created a new anecdote: ${content}`))
     setTimeout(() => {
       dispatch(clearNotification(''))
