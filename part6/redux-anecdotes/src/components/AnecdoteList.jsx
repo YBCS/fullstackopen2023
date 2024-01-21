@@ -8,9 +8,9 @@ const AnecdoteList = () => {
   const filterName = useSelector((state) => state.filter) // redux is very composable
   const dispatch = useDispatch()
 
-  const vote = (id) => {
-    dispatch(castVoteOf(id))
-    const voted = anecdotes.find((a) => a.id === id)
+  const vote = (anecdote) => {
+    dispatch(castVoteOf(anecdote))
+    const voted = anecdotes.find((a) => a.id === anecdote.id)
     // there is a bug here. When I set '' after 5 seconds it will overwrite the notification
     dispatch(setNotification(`you voted ${voted.content}`))
     setTimeout(() => {
@@ -37,7 +37,7 @@ const AnecdoteList = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       ))}

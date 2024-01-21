@@ -1,0 +1,6 @@
+PUT http://localhost:3001/anecdotes/47145
+
+{
+    "votes": 1,
+    "content": "If it hurts, do it more often"
+}
