@@ -13,6 +13,7 @@ const createNew = async (content) => {
     return response.data
 }
 
+// todo : in solution how are they handling newObject
 const update = async (id, newObject) => {
     const response = await axios.put(`${baseUrl}/${id}`, newObject)
     return response.data

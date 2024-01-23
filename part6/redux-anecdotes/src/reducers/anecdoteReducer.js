@@ -30,7 +30,7 @@ const anecdoteSlice = createSlice({
 
 // redux thunk - asynchronous action creators
 export const initializeAnecdotes = () => {
-  return async dispatch => { // where is this dispatch coming from ?
+  return async dispatch => { // todo : where is this dispatch coming from ?
     const anecdotes = await anecdoteService.getAll()
     dispatch(setAnecdotes(anecdotes))
   }
