@@ -92,8 +92,13 @@ git how to unstage a file ?
   - why am I unable to use .js instead of .jsx
   - ## section b
   - ## section c
-  - to JSON server, I had to switch my node version to 18 using nvm
+  - to use JSON server, I had to switch my node version to 18 using nvm
   - also -watch argument in json-server is no longer supported
   - Redux Toolkit's `configureStore` has `Redux Thunk` inbuilt
   - Quote: "The solution is elegant. The initialization logic for the notes has been completely separated from the React component." # so that is what is elegant in the eyes of the authors
     - my understanding is that they are not using service files in the component file and that is the level of abstraction they are looking for "elegant".
+  - ## section d
+  - another section with another tool for state management - react query
+  - instructions also provided for --> react context and react reducers
+  - an app can have multiple state management solutions
+  - please read the solution for entire part 6

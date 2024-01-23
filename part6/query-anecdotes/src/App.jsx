@@ -23,6 +23,14 @@ const App = () => {
     })
 
     // todo : that timeout bug still exist ; I might have fixed it in my 2020 code
+    // description of bug:
+    // a notification triggers a timeout
+    // if another notification is triggered before the timeout is completed, 
+    // the previous timeout is NOT cleared!
+    // expected behavior: the previous timeout should be cleared;
+    // notification 1
+    // notitication 2 (if before notification 1 is finished; this should be rendered in UI and it should show for the full duration of the timeout)
+
     setTimeout(() => {
       dispatch({ type: 'CLEAR' })
     }, 3000)

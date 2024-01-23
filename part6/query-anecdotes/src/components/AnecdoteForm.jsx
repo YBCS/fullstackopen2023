@@ -31,6 +31,19 @@ const AnecdoteForm = () => {
       //   anecdotes.concat(newAnecdote)
       // )
     },
+    onError: (error) => {
+      console.log('on error new anecdote called ', error)
+      // I miss my action creators :( 
+      dispatch({
+        type: 'SET',
+        notification: `${error.response.data.error}`,
+      })
+      setTimeout(() => {
+        dispatch({
+          type: 'CLEAR',
+        })
+      }, 3000)
+    },
   })
 
   const onCreate = (event) => {
